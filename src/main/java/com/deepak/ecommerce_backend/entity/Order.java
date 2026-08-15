@@ -7,14 +7,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table( name = "orders",
+@Table(name = "orders",
         indexes = {
-        @Index( name = "idx_order_user_id", columnList = "user_id"),
-                @Index( name = "idx_order_public_id", columnList = "public_id")
+                @Index(name = "idx_order_user_id", columnList = "user_id"),
+                @Index(name = "idx_order_public_id", columnList = "public_id")
         }
 )
 @NoArgsConstructor
@@ -22,38 +24,29 @@ import java.util.UUID;
 @Setter
 @Getter
 @Builder
-public class Order extends BaseEntity{
+public class Order extends BaseEntity {
+
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "public_id", nullable = false, unique = true, updatable = false)
-    private UUID publicId;
-
-    @NotNull(message = "Amount is required")
     @Min(value = 0)
-    @Column(name = "total_amount", nullable = false)
-    private Double totalAmount;
+    @Column(name = "total_amount", nullable = false, precision = 12, scale = 2)
+    private BigDecimal totalAmount;
 
     @NotBlank(message = "Address is Required")
     @Column(name = "shipping_address", nullable = false, length = 200)
     private String shippingAddress;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne      //    fetch = FetchType.LAZY  check the N+1 problem later
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> orderItem;
-
-    @PrePersist
-    protected void onCreate(){
-        if(this.publicId == null){
-            this.publicId = UUID.randomUUID();
-        }
-    }
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> orderItem = new ArrayList<>();
 
 }

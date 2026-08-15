@@ -1,31 +1,35 @@
 package com.deepak.ecommerce_backend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
-@Table( name = "cart_items")
-public class CartItem {
+@Table( name = "cart_items", indexes =
+    @Index(name = "idx_cart_item_public_id", columnList = "public_id"))
+public class CartItem extends BaseEntity {
+
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "public_id", nullable = false, unique = true, updatable = false)
-    private UUID publicId;
-
     @NotNull(message = "quantity is required")
+    @Min(value = 0)
     private Integer quantity;
 
     @NotNull(message = "price is required")
-    private Double price;
+    @Min(value = 0)
+    @Column(precision = 12, scale = 2)
+    private BigDecimal price;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "product_id",nullable = false)
     private Product product;
 

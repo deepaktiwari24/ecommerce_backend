@@ -10,13 +10,12 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users",
         indexes = {
-        @Index(name = "idx_user_email", columnList = "email"),
-        @Index(name = "idx_user_public_Id", columnList = "public_id")
+                @Index(name = "idx_user_email", columnList = "email"),
+                @Index(name = "idx_user_public_Id", columnList = "public_id")
         }
 )
 @NoArgsConstructor
@@ -25,12 +24,10 @@ import java.util.UUID;
 @Setter
 @Builder
 public class User extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @Column(name = "public_id", nullable = false, unique = true, updatable = false)
-    private UUID publicId;
+    @Id
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotBlank(message = "Username is required")
     @Size(min = 3, max = 50, message = "username must be between 3 and 50")
@@ -38,7 +35,7 @@ public class User extends BaseEntity {
     private String name;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(nullable = false, length = 60)
     private String password;
 
     @NotBlank(message = "Email is required")
@@ -65,15 +62,7 @@ public class User extends BaseEntity {
 
     @OneToOne(mappedBy = "user")
     private Cart cart;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true )
+    //cascade = CascadeType.ALL  and orphan check later
+    @OneToMany(mappedBy = "user")
     private List<Order> order = new ArrayList<>();
-
-    @PrePersist
-    protected void onCreate(){
-        if(this.publicId == null){
-            this.publicId = UUID.randomUUID();
-        }
-    }
-
 }
