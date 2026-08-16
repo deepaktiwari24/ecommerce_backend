@@ -25,7 +25,6 @@ public abstract class BaseEntity {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    @Setter
     @LastModifiedDate
     @Column(name = "updated_at")
     private Instant updatedAt;

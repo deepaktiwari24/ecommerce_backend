@@ -1,7 +1,6 @@
 package com.deepak.ecommerce_backend.controller;
 
 import com.deepak.ecommerce_backend.dto.UserDto;
-import com.deepak.ecommerce_backend.entity.User;
 import com.deepak.ecommerce_backend.service.Impl.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

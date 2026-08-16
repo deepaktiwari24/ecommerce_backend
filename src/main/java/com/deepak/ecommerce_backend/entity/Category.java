@@ -9,12 +9,10 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 @Entity
 @Table(name = "categories", indexes =
             @Index( name = "idx_category_public_id", columnList = "public_id"))
@@ -24,6 +22,7 @@ public class Category extends BaseEntity{
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @NotBlank( message = "Category name is required")
     @Column(nullable = false, unique = true, length = 150)
     private String name;

@@ -5,7 +5,6 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-import javax.swing.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
