@@ -1,5 +1,6 @@
 package com.deepak.ecommerce_backend.dto;
 
+import com.deepak.ecommerce_backend.entity.Cart;
 import com.deepak.ecommerce_backend.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
@@ -40,7 +41,8 @@ public class UserDto {
             LocalDateTime lastLoginAt,
             Instant createdAt,
             Instant updateAt,
-            Role role
+            Role role,
+            UUID cartPublicId
     ){}
 
 }

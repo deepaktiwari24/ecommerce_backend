@@ -51,12 +51,25 @@ public class UserService implements IUserService {
                 savedUser.getLastLoginAt(),
                 savedUser.getCreatedAt(),
                 savedUser.getUpdatedAt(),
-                savedUser.getRole()
-                );
+                savedUser.getRole(),
+                cart.getPublicId()
+        );
     }
 
     @Override
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public UserDto.Response getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("No User with this email exists"));
+        return new UserDto.Response(
+                user.getPublicId(),
+                user.getName(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getIsActive(),
+                user.getLastLoginAt(),
+                user.getCreatedAt(),
+                user.getUpdatedAt(),
+                user.getRole(),
+                user.getCart().getPublicId()
+        );
     }
 }

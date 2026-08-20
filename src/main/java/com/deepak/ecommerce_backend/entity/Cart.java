@@ -27,7 +27,7 @@ public class Cart extends BaseEntity {
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "price is required")
+//    @NotNull(message = "price is required")
     @Min(value = 0)
     @Column(name = "total_price", precision = 12, scale = 2)
     private BigDecimal totalPrice;

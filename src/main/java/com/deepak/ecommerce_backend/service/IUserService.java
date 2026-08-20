@@ -9,5 +9,5 @@ public interface IUserService {
 
     UserDto.Response registerUser(UserDto.RegisterRequest user);
 
-    Optional<User> getUserByEmail(String email);
+    UserDto.Response getUserByEmail(String email);
 }

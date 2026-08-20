@@ -4,10 +4,7 @@ import com.deepak.ecommerce_backend.dto.UserDto;
 import com.deepak.ecommerce_backend.service.Impl.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/auth")
@@ -21,8 +18,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto.Response> register(@RequestBody UserDto.RegisterRequest userDto){
-
+    public ResponseEntity<UserDto.Response> register(@RequestBody UserDto.RegisterRequest userDto) {
         return new ResponseEntity<>(userService.registerUser(userDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/user/email/{email}")
+    public ResponseEntity<UserDto.Response> getUserByEmail(@PathVariable("email") String email) {
+        return new ResponseEntity<>(userService.getUserByEmail(email), HttpStatus.FOUND);
     }
 }
